@@ -34,9 +34,7 @@ namespace TeleportationNetwork
             _api = api;
             _logger = logger;
 
-            var rockstrata = api.Assets.Get("game:worldgen/rockstrata.json").ToObject<RockStrataConfig>();
-            var blockLayerConfig = api.Assets.Get("game:worldgen/blocklayers.json").ToObject<BlockLayerConfig>();
-            blockLayerConfig.ResolveBlockIds(api, rockstrata);
+            var blockLayerConfig = BlockLayerConfig.GetInstance(api);
 
             _structures = LoadSchematicList(blockLayerConfig, props.Schematics);
             _bases = LoadSchematicList(blockLayerConfig, props.BaseSchematics);

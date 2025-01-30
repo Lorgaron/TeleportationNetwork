@@ -307,7 +307,7 @@ namespace TeleportationNetwork
                                 entity.World.PlaySoundAt(soundLoc, entity, null, true, 32, .5f);
                             }
                            ((ICoreServerAPI)Api).Network.BroadcastBlockEntityPacket(
-                               targetPoint.X, targetPoint.Y, targetPoint.Z,
+                               new BlockPos(targetPoint.X, targetPoint.Y, targetPoint.Z),
                                Constants.EntityTeleportedPacketId,
                                BitConverter.GetBytes(entity.EntityId));
                         });

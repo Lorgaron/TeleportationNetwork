@@ -1,0 +1,13 @@
+{
+	"type": "Code",
+	"name": "Teleportation Network Patched",
+	"modid": "tpnet",
+	"version": "1.14.5",
+	"description": "Adds surface teleport network",
+	"website": "https://github.com/Lorgaron/TeleportationNetwork",
+	"authors": ["DArkHekRoMaNT","Lorgar"],
+	"dependencies": {
+		"game": "1.20.0",
+		"commonlib": "2.6.1"
+	}
+}

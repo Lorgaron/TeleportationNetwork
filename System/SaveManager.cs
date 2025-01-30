@@ -76,7 +76,8 @@ namespace TeleportationNetwork
 
                 var list = new List<Teleport>();
 
-                if (TryDeserializeFrom(new LegacyTeleportLoader_v1_8_0_pre_6(), data, ref list)) { }
+                if (TryDeserializeFrom(new LegacyTeleportLoader_modv1_14_3(), data, ref list)) { }
+                else if (TryDeserializeFrom(new LegacyTeleportLoader_v1_8_0_pre_6(), data, ref list)) { }
                 else if (TryDeserializeFrom(new LegacyTeleportLoader_v1_8_0_pre_1(), data, ref list)) { }
                 else if (TryDeserializeFrom(new LegacyTeleportLoader_v1_7(), data, ref list)) { }
                 else if (TryDeserializeFrom(new LegacyTeleportLoader_v1_5(), data, ref list)) { }
@@ -106,6 +107,45 @@ namespace TeleportationNetwork
         private abstract class LegacyTeleportLoader
         {
             public abstract List<Teleport> Deserialize(TeleportManager manager, byte[] data);
+        }
+
+        private class LegacyTeleportLoader_modv1_14_3 : LegacyTeleportLoader
+        {
+            public override List<Teleport> Deserialize(TeleportManager manager, byte[] data)
+            {
+                return SerializerUtil.Deserialize<List<LegacyTeleport>>(data)
+                    .Select(legacy =>
+                    {
+                        var teleport = new Teleport(legacy.Pos, legacy.Name, legacy.Enabled);
+                        teleport.ActivatedByPlayers.AddRange(legacy.ActivatedByPlayers);
+                        teleport.Neighbours.AddRange(legacy.Neighbours);
+                        teleport.ClientData.AddRange(legacy.ClientData);
+                        return teleport;
+                    })
+                    .ToList();
+            }
+
+            [ProtoContract(ImplicitFields = ImplicitFields.AllPublic)]
+            private class LegacyTeleport
+            {
+                public BlockPos Pos { get; private set; }
+                public string Name { get; set; }
+                public bool Enabled { get; set; }
+
+                public List<Teleport> Neighbours { get; private set; }
+                public List<string> ActivatedByPlayers { get; private set; }
+                public Dictionary<string, TeleportClientData> ClientData { get; private set; }
+
+                private LegacyTeleport()
+                {
+                    Name = "null";
+                    Enabled = false;
+                    Pos = new BlockPos(0);
+                    Neighbours = [];
+                    ActivatedByPlayers = [];
+                    ClientData = new Dictionary<string, TeleportClientData>();
+                }
+            }
         }
 
         private class LegacyTeleportLoader_v1_8_0_pre_6 : LegacyTeleportLoader

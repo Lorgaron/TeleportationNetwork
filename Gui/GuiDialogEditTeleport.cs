@@ -145,40 +145,48 @@ namespace TeleportationNetwork
                 .WithAlignment(EnumDialogArea.CenterMiddle)
                 .WithFixedAlignmentOffset(-GuiStyle.DialogToScreenPadding, 0);
 
+            Boolean useFallback = false;
             if (mapAllowed) // Only allow editing of markers when world map is available as icons are not loaded without a map
             {
-                SingleComposer = capi.Gui
-                    .CreateCompo($"{Constants.ModId}:edittpdlg", dialogBounds)
-                    .AddShadedDialogBG(bgBounds, false)
-                    .AddDialogTitleBar(DialogTitle, () => TryClose())
-                    .BeginChildElements(bgBounds)
-                        .AddStaticText(Lang.Get("Name"), CairoFont.WhiteSmallText(), nameLabel)
-                        .AddTextInput(nameInput, OnNameChanged, CairoFont.TextInput(), "nameInput")
+                try
+                {
+                    SingleComposer = capi.Gui
+                        .CreateCompo($"{Constants.ModId}:edittpdlg", dialogBounds)
+                        .AddShadedDialogBG(bgBounds, false)
+                        .AddDialogTitleBar(DialogTitle, () => TryClose())
+                        .BeginChildElements(bgBounds)
+                            .AddStaticText(Lang.Get("Name"), CairoFont.WhiteSmallText(), nameLabel)
+                            .AddTextInput(nameInput, OnNameChanged, CairoFont.TextInput(), "nameInput")
 
-                        .AddStaticText(Lang.Get("Note"), CairoFont.WhiteSmallText(), noteLabel)
-                        .AddTextArea(noteArea, OnNoteChanged, CairoFont.TextInput(), "noteInput")
+                            .AddStaticText(Lang.Get("Note"), CairoFont.WhiteSmallText(), noteLabel)
+                            .AddTextArea(noteArea, OnNoteChanged, CairoFont.TextInput(), "noteInput")
 
-                        .AddStaticText(Lang.Get($"{Constants.ModId}:edittpdlg-order-label"), CairoFont.WhiteSmallText(), orderLabel)
-                        .AddNumberInput(orderInput, OnOrderChanged, CairoFont.WhiteSmallText(), "orderInput")
+                            .AddStaticText(Lang.Get($"{Constants.ModId}:edittpdlg-order-label"), CairoFont.WhiteSmallText(), orderLabel)
+                            .AddNumberInput(orderInput, OnOrderChanged, CairoFont.WhiteSmallText(), "orderInput")
 
-                        .AddStaticText(Lang.Get("Pinned"), CairoFont.WhiteSmallText(), pinnedLabel)
-                        .AddSwitch(OnPinnedChanged, pinnedSwitch, "pinnedSwitch")
+                            .AddStaticText(Lang.Get("Pinned"), CairoFont.WhiteSmallText(), pinnedLabel)
+                            .AddSwitch(OnPinnedChanged, pinnedSwitch, "pinnedSwitch")
 
-                        .AddStaticText(Lang.Get($"{Constants.ModId}:edittpdlg-global-label"), CairoFont.WhiteSmallText(), globalLabel)
-                        .AddSwitch(null, globalSwitch, "globalSwitch")
+                            .AddStaticText(Lang.Get($"{Constants.ModId}:edittpdlg-global-label"), CairoFont.WhiteSmallText(), globalLabel)
+                            .AddSwitch(null, globalSwitch, "globalSwitch")
 
-                        .AddRichtext(Lang.Get("waypoint-color"), CairoFont.WhiteSmallText(), colorLabel)
-                        .AddColorListPicker(_colors, OnColorSelected, colorPicker, 270, "colorPicker")
+                            .AddRichtext(Lang.Get("waypoint-color"), CairoFont.WhiteSmallText(), colorLabel)
+                            .AddColorListPicker(_colors, OnColorSelected, colorPicker, 270, "colorPicker")
 
-                        .AddStaticText(Lang.Get("Icon"), CairoFont.WhiteSmallText(), iconLabel)
-                        .AddIconListPicker(_icons, OnIconSelected, iconPicker, 270, "iconPicker")
+                            .AddStaticText(Lang.Get("Icon"), CairoFont.WhiteSmallText(), iconLabel)
+                            .AddIconListPicker(_icons, OnIconSelected, iconPicker, 270, "iconPicker")
 
-                        .AddSmallButton(Lang.Get("Cancel"), OnCancel, cancelButton, EnumButtonStyle.Normal)
-                        .AddSmallButton(Lang.Get("Save"), OnSave, saveButton, EnumButtonStyle.Normal, key: "saveButton")
-                    .EndChildElements()
-                    .Compose();
+                            .AddSmallButton(Lang.Get("Cancel"), OnCancel, cancelButton, EnumButtonStyle.Normal)
+                            .AddSmallButton(Lang.Get("Save"), OnSave, saveButton, EnumButtonStyle.Normal, key: "saveButton")
+                        .EndChildElements()
+                        .Compose();
+                }
+                catch (Exception e)
+                {
+                    useFallback = true; // Use fallback when icons are not loaded and there is no allowMap config that says so
+                }
             }
-            else
+            if(!mapAllowed || useFallback)
             {
                 SingleComposer = capi.Gui
                     .CreateCompo($"{Constants.ModId}:edittpdlg", dialogBounds)

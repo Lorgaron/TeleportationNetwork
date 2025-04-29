@@ -8,6 +8,7 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
+using Vintagestory.Client.NoObf;
 using Vintagestory.GameContent;
 
 namespace TeleportationNetwork
@@ -213,10 +214,15 @@ namespace TeleportationNetwork
 
                     if (Api.Side == EnumAppSide.Client && _teleportDlg?.IsOpened() != true)
                     {
-                        _teleportDlg?.Dispose();
+                        ICoreClientAPI capi = (ICoreClientAPI)Api;
+                        string clientPlayerId = capi.Settings.String["playeruid"];
+                        if (clientPlayerId.Equals(activePlayer.Key))
+                        {
+                            _teleportDlg?.Dispose();
 
-                        _teleportDlg = new GuiDialogTeleportList((ICoreClientAPI)Api, Pos);
-                        _teleportDlg.TryOpen();
+                            _teleportDlg = new GuiDialogTeleportList((ICoreClientAPI)Api, Pos);
+                            _teleportDlg.TryOpen();
+                        }
                     }
                 }
 
@@ -229,7 +235,12 @@ namespace TeleportationNetwork
 
                 if (Api.Side == EnumAppSide.Client)
                 {
-                    _teleportDlg?.TryClose();
+                    ICoreClientAPI capi = (ICoreClientAPI)Api;
+                    string clientPlayerId = capi.Settings.String["playeruid"];
+                    if (clientPlayerId.Equals(playerUID))
+                    {
+                        _teleportDlg?.TryClose();
+                    }
                 }
             }
 

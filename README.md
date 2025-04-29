@@ -1,4 +1,3 @@
 # TeleportationNetwork
 
-[Forum](https://www.vintagestory.at/forums/topic/3652-teleportation-network/),
-[ModDB](https://mods.vintagestory.at/tpnet/)
+[ModDB](https://mods.vintagestory.at/show/mod/18587)

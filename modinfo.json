@@ -2,7 +2,7 @@
 	"type": "Code",
 	"name": "Teleportation Network Patched",
 	"modid": "tpnetpatched",
-	"version": "1.14.7",
+	"version": "1.14.8",
 	"description": "Adds surface teleport network",
 	"website": "https://github.com/Lorgaron/TeleportationNetwork",
 	"authors": ["DArkHekRoMaNT","Lorgar"],

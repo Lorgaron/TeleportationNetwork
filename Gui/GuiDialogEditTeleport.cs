@@ -69,7 +69,17 @@ namespace TeleportationNetwork
             IAttribute value = capi.World.Config["allowMap"];
             if(value != null)
             {
-                mapAllowed = (bool)value.GetValue();
+                if (value.GetValue() is bool bValue)
+                {
+                    mapAllowed = bValue;
+                }
+                else if(value.GetValue() is string sValue)
+                {
+                    mapAllowed = sValue.ToLower().Equals("true");
+                } else 
+                {
+                    mapAllowed = false;
+                }
             }
 
             if (!_colors.Contains(TeleportClientData.DefaultColor))

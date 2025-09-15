@@ -1,4 +1,5 @@
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 
 namespace TeleportationNetwork
@@ -25,10 +26,12 @@ namespace TeleportationNetwork
             {
                 _accepted = false;
                 var manager = Api.ModLoader.GetModSystem<TeleportManager>();
+                int chunkSize = GlobalConstants.ChunkSize;
+
                 foreach (Teleport teleport in manager.Points.GetAll())
                 {
-                    int chunkX = teleport.Pos.X / Api.World.BlockAccessor.ChunkSize;
-                    int chunkZ = teleport.Pos.Z / Api.World.BlockAccessor.ChunkSize;
+                    int chunkX = teleport.Pos.X / chunkSize;
+                    int chunkZ = teleport.Pos.Z / chunkSize;
 
                     Api.WorldManager.LoadChunkColumnPriority(chunkX, chunkZ, new ChunkLoadOptions
                     {

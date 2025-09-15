@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.ServerMods;
@@ -24,7 +25,7 @@ namespace TeleportationNetwork
                 _ => throw new NotImplementedException()
             };
 
-            int chunksize = blockAccessor.ChunkSize;
+            int chunksize = GlobalConstants.ChunkSize;
             for (int i = 0; i < Indices.Count; i++)
             {
                 uint index = Indices[i];

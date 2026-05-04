@@ -29,7 +29,9 @@ namespace TeleportationNetwork
         private TeleportParticleController? ParticleController => (Block as BlockTeleport)?.ParticleController;
 
         private ILoadedSound? _sound;
+        private ILoadedSound? _activeSound;
         private float _soundVolume;
+        private float _activeSoundVolume;
         private float _soundPith;
 
         private MeshData? _frameMesh;
@@ -106,6 +108,16 @@ namespace TeleportationNetwork
                     Volume = 0
                 });
 
+                _activeSound = capi.World.LoadSound(new SoundParams
+                {
+                    Location = new AssetLocation("sounds/effect/translocate-active.ogg"),
+                    ShouldLoop = true,
+                    Position = Pos.ToVec3f().AddCopy(.5f, 1, .5f),
+                    RelativePosition = false,
+                    DisposeOnFinish = false,
+                    Volume = 0
+                });
+
                 UpdateFrameMesh();
                 UpdateAnimator();
             }
@@ -147,6 +159,10 @@ namespace TeleportationNetwork
                     {
                         _sound.Start();
                     }
+                    if (_activeSound?.IsPlaying == false)
+                    {
+                        _activeSound.Start();
+                    }
 
                     ParticleController?.SpawnSealEdgeParticle(Pos);
                     SealRenderer.Enabled = true;
@@ -156,22 +172,39 @@ namespace TeleportationNetwork
                     {
                         ParticleController?.SpawnActiveParticles(Pos, _activeTime);
 
-                        _soundVolume = Math.Min(1f, _soundVolume + dt / 3);
+                        // Player charging: fade idle hum out, fade active hum in
+                        _soundVolume = Math.Max(0f, _soundVolume - dt);
+                        _activeSoundVolume = Math.Min(1f, _activeSoundVolume + dt / 3);
                         _soundPith = Math.Min(1.5f, _soundPith + dt / 3);
                     }
                     else
                     {
-                        _soundVolume = Math.Max(0.5f, _soundVolume - dt);
+                        // Idle: keep ambient hum, fade out active
+                        _soundVolume = Math.Min(0.5f, _soundVolume + dt);
+                        _activeSoundVolume = Math.Max(0f, _activeSoundVolume - dt);
                         _soundPith = Math.Max(0.5f, _soundPith - dt);
                     }
 
                     _sound?.SetVolume(_soundVolume);
                     _sound?.SetPitch(_soundPith);
+                    _activeSound?.SetVolume(_activeSoundVolume);
+                    _activeSound?.SetPitch(_soundPith);
+
+                    // Drive the HUD cooldown ring for the local player only
+                    var capi = (ICoreClientAPI)Api;
+                    string clientUID = capi.Settings.String["playeruid"];
+                    if (ActivePlayers.TryGetValue(clientUID, out var localPlayerData) &&
+                        localPlayerData.State == TeleportingPlayerData.EnumState.Active)
+                    {
+                        float progress = Math.Min(1f, localPlayerData.SecondsPassed / Constants.BeforeTeleportShowGUITime);
+                        capi.ModLoader.GetModSystem<Core>().HudCircleRenderer.CircleProgress = progress;
+                    }
                 }
                 else
                 {
                     SealRenderer.Enabled = false;
                     _sound?.Stop();
+                    _activeSound?.Stop();
                 }
             }
         }
@@ -218,6 +251,9 @@ namespace TeleportationNetwork
                         string clientPlayerId = capi.Settings.String["playeruid"];
                         if (clientPlayerId.Equals(activePlayer.Key))
                         {
+                            // GUI is taking over; hide the cooldown ring
+                            capi.ModLoader.GetModSystem<Core>().HudCircleRenderer.CircleVisible = false;
+
                             _teleportDlg?.Dispose();
 
                             _teleportDlg = new GuiDialogTeleportList((ICoreClientAPI)Api, Pos);
@@ -240,6 +276,7 @@ namespace TeleportationNetwork
                     if (clientPlayerId.Equals(playerUID))
                     {
                         _teleportDlg?.TryClose();
+                        capi.ModLoader.GetModSystem<Core>().HudCircleRenderer.CircleVisible = false;
                     }
                 }
             }
@@ -261,11 +298,6 @@ namespace TeleportationNetwork
         {
             if (!TeleportManager.Points.Contains(Pos))
             {
-                if (Api.Side == EnumAppSide.Client)
-                {
-                    ModLogger.Error("Creating teleport on client side!");
-                }
-
                 string name = TeleportManager.NameGenerator.Next();
                 var teleport = new Teleport(Pos, name, Repaired);
                 TeleportManager.Points.Set(teleport);
@@ -366,6 +398,7 @@ namespace TeleportationNetwork
             base.OnBlockUnloaded();
             SealRenderer?.Dispose();
             _sound?.Dispose();
+            _activeSound?.Dispose();
         }
 
         public override void OnBlockRemoved()
@@ -379,6 +412,7 @@ namespace TeleportationNetwork
 
             SealRenderer?.Dispose();
             _sound?.Dispose();
+            _activeSound?.Dispose();
         }
 
         public override void ToTreeAttributes(ITreeAttribute tree)

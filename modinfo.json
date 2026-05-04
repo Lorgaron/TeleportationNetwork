@@ -1,13 +1,13 @@
 {
+	"$schema": "https://moddbcdn.vintagestory.at/schema/modinfo.latest.json",
 	"type": "Code",
 	"name": "Teleportation Network Patched",
 	"modid": "tpnetpatched",
-	"version": "1.14.9",
+	"version": "1.14.10",
 	"description": "Adds surface teleport network",
 	"website": "https://github.com/Lorgaron/TeleportationNetwork",
-	"authors": ["DArkHekRoMaNT","Lorgar"],
+	"authors": ["DArkHekRoMaNT", "Lorgar"],
 	"dependencies": {
-		"game": "1.21.0",
-		"commonlib": "2.6.1"
+		"game": "1.22.0"
 	}
 }

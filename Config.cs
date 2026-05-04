@@ -1,4 +1,4 @@
-using CommonLib.Config;
+using TeleportationNetwork.Lib.Config;
 
 namespace TeleportationNetwork
 {

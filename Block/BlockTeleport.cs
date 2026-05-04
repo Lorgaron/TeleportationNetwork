@@ -1,5 +1,5 @@
-using CommonLib.Extensions;
-using CommonLib.Utils;
+using TeleportationNetwork.Lib.Extensions;
+using TeleportationNetwork.Lib.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Client;

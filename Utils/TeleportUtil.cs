@@ -75,7 +75,7 @@ namespace TeleportationNetwork
 
             if (Core.Config.StabilityTeleportMode != "off" && unstableTeleport)
             {
-                CommonLib.Utils.TeleportUtil.RandomTeleport((IServerPlayer)entity.Player, new()
+                TeleportationNetwork.Lib.Utils.TeleportUtil.RandomTeleport((IServerPlayer)entity.Player, new()
                 {
                     Range = Core.Config.UnstableTeleportRange,
                     CenterPos = pos.AsBlockPos.ToVec3i()

@@ -1,5 +1,3 @@
-using CommonLib.Config;
-
 namespace TeleportationNetwork
 {
     [Config("tpnet.json")]

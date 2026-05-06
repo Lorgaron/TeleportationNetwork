@@ -87,7 +87,7 @@ namespace TeleportationNetwork
                     continue;
                 }
 
-                schematic.FromFileName = asset.Name;
+                schematic.FromFile = asset.Name;
 
                 var rotatedSchematics = new TeleportSchematicStructure[4];
                 rotatedSchematics[0] = schematic;
@@ -102,7 +102,7 @@ namespace TeleportationNetwork
                     rotatedSchematics[k].blockLayerConfig = config;
                     rotatedSchematics[k].Init(_api.World.BlockAccessor);
                     rotatedSchematics[k].LoadMetaInformationAndValidate(_api.World.BlockAccessor,
-                        _api.World, schematic.FromFileName);
+                        _api.World, schematic.FromFile);
                 }
 
                 return rotatedSchematics;

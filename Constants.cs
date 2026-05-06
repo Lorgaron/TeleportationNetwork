@@ -11,5 +11,6 @@ namespace TeleportationNetwork
         public static string TeleportStructureGroup => $"{ModId}-teleport";
         public static int MaxPillarHeight => int.MaxValue;
         public static int TeleportTriesPerChunk => 10;
-    }
+		public static string ConfigManagerChannelName => $"{ModId}-config-manager";
+	}
 }

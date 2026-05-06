@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -11,9 +11,9 @@
 		<WarningLevel>4</WarningLevel>
 		<!-- Disable Missing XML comment for publicly visible type or member -->
 		<NoWarn>CS1591</NoWarn>
-		<AssemblyVersion>1.14.9</AssemblyVersion>
-		<FileVersion>1.14.9</FileVersion>
-		<Version>1.14.9</Version>
+		<AssemblyVersion>1.15.0</AssemblyVersion>
+		<FileVersion>1.15.0</FileVersion>
+		<Version>1.15.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -22,34 +22,31 @@
 
 	<ItemGroup>
 	  <Reference Include="0Harmony">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\Lib\0Harmony.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\Lib\0Harmony.dll</HintPath>
 	  </Reference>
 	  <Reference Include="cairo-sharp">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\Lib\cairo-sharp.dll</HintPath>
-	  </Reference>
-	  <Reference Include="CommonLib">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\VintagestoryData\ModLibs\CommonLib.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\Lib\cairo-sharp.dll</HintPath>
 	  </Reference>
 	  <Reference Include="Newtonsoft.Json">
 	    <HintPath>..\..\..\Games\Vintagestory1.21\Lib\Newtonsoft.Json.dll</HintPath>
 	  </Reference>
 	  <Reference Include="protobuf-net">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\Lib\protobuf-net.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\Lib\protobuf-net.dll</HintPath>
 	  </Reference>
 	  <Reference Include="VintagestoryAPI">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\VintagestoryAPI.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\VintagestoryAPI.dll</HintPath>
 	  </Reference>
 	  <Reference Include="VintagestoryLib">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\VintagestoryLib.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\VintagestoryLib.dll</HintPath>
 	  </Reference>
 	  <Reference Include="VSCreativeMod">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\Mods\VSCreativeMod.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\Mods\VSCreativeMod.dll</HintPath>
 	  </Reference>
 	  <Reference Include="VSEssentials">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\Mods\VSEssentials.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\Mods\VSEssentials.dll</HintPath>
 	  </Reference>
 	  <Reference Include="VSSurvivalMod">
-	    <HintPath>..\..\..\Games\Vintagestory1.21\Mods\VSSurvivalMod.dll</HintPath>
+	    <HintPath>..\..\..\Games\Vintagestory1.22\Mods\VSSurvivalMod.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 </Project>

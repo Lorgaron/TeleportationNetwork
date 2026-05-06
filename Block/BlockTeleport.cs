@@ -1,5 +1,3 @@
-using CommonLib.Extensions;
-using CommonLib.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Client;
@@ -101,22 +99,25 @@ namespace TeleportationNetwork
                     // repair
                     if (IsBroken && activeSlot.Itemstack.Collectible.Code == GetRepairItem())
                     {
-                        Block newBlock = world.GetBlock(CodeWithVariant("state", "normal"));
-                        world.BlockAccessor.ExchangeBlock(newBlock.BlockId, blockSel.Position);
-                        be.Update();
-
-                        if (byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative)
+                        Block? newBlock = world.GetBlock(CodeWithVariant("state", "normal"));
+                        if(newBlock != null)
                         {
-                            activeSlot.TakeOut(1);
-                            activeSlot.MarkDirty();
-                        }
+                            world.BlockAccessor.ExchangeBlock(newBlock.BlockId, blockSel.Position);
+                            be.Update();
 
-                        if (api.Side == EnumAppSide.Server)
-                        {
-                            be.ActivateTeleportByPlayer(byPlayer.PlayerUID);
-                        }
+                            if (byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative)
+                            {
+                                activeSlot.TakeOut(1);
+                                activeSlot.MarkDirty();
+                            }
 
-                        world.PlaySoundAt(new AssetLocation("sounds/effect/latch"), blockSel.Position.X + 0.5, blockSel.Position.Y, blockSel.Position.Z + 0.5, byPlayer, true, 16);
+                            if (api.Side == EnumAppSide.Server)
+                            {
+                                be.ActivateTeleportByPlayer(byPlayer.PlayerUID);
+                            }
+
+                            world.PlaySoundAt(new AssetLocation("sounds/effect/latch"), blockSel.Position.X + 0.5, blockSel.Position.Y, blockSel.Position.Z + 0.5, byPlayer, true, 16);
+                        }
                         return true;
                     }
 

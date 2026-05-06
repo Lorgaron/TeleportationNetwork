@@ -120,7 +120,8 @@ namespace TeleportationNetwork
 
             _currentStructure = structure;
 
-            _currentRock = GetRock();
+            //_currentRock = GetRock();
+            _currentRock = "granite";
             _currentWood = Woods[rand.NextInt(Woods.Length)];
             _currentClay = Clays[rand.NextInt(Clays.Length)];
             _currentLantern = _props.LanternMaterials[rand.NextInt(_props.LanternMaterials.Length)];

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
@@ -135,7 +135,7 @@ namespace TeleportationNetwork
             {
                 foreach (BlockPos structurePos in _generatedStructures)
                 {
-                    int distance = structurePos.HorizontalManhattenDistance(pos);
+                    int distance = structurePos.HorizontalManhattanDistance(pos);
                     if (distance > Core.Config.MinTeleportDistance)
                     {
                         continue;
@@ -211,7 +211,7 @@ namespace TeleportationNetwork
             for (int i = _worldgenBlockAccessor.GetTerrainMapheightAt(tmpPos.Set(x, 0, z)); i > 0; i--)
             {
                 Block? block = _worldgenBlockAccessor.GetBlock(tmpPos.Set(x, i, z), BlockLayersAccess.MostSolid);
-                if (block.Code.ToString() == "game:glacierice" || block.Code.ToString() == "game:showblock")
+                if (block.Code.ToString() == "game:glacierice" || block.Code.ToString() == "game:snowblock")
                 {
                     glacierLevel++;
                 }
@@ -240,11 +240,11 @@ namespace TeleportationNetwork
             // Check area empty
             for (int i = 0; i < structure.Teleport.SizeX; i++)
             {
-                for (int j = 0; j < structure.Teleport.SizeX; j++)
+                for (int j = 0; j < structure.Teleport.SizeZ; j++)
                 {
-                    for (int k = 0; k < structure.Teleport.SizeX; k++)
+                    for (int k = 0; k < structure.Teleport.SizeY; k++)
                     {
-                        Block block = _worldgenBlockAccessor.GetBlock(tmpPos.Set(x, y, z), BlockLayersAccess.MostSolid);
+                        Block block = _worldgenBlockAccessor.GetBlock(tmpPos.Set(x + i, y + k, z + j), BlockLayersAccess.MostSolid);
                         if (block.Id != 0 && !structure.Props.Underwater)
                         {
                             return false;

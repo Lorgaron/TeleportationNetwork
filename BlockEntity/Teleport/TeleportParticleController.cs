@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
@@ -11,7 +11,7 @@ namespace TeleportationNetwork
         private readonly ICoreClientAPI _api;
         private readonly SimpleParticleProperties _circleParticles;
         private readonly SimpleParticleProperties _teleportParticles;
-        private readonly Item _temporalGear;
+        private readonly Item? _temporalGear;
 
         public TeleportParticleController(ICoreClientAPI api)
         {
@@ -86,7 +86,7 @@ namespace TeleportationNetwork
             foreach (Entity entity in entities)
             {
                 float radius = entity.CollisionBox.Width / 1.5f;
-                Vec3d entityPos = entity.SidedPos.XYZ;
+                Vec3d entityPos = entity.Pos.XYZ;
 
                 int quantity = (int)(entity.CollisionBox.Width * entity.CollisionBox.Width * (5 + Math.Exp(time)));
                 SpawnCircleEdgeParticle(radius, entityPos, quantity);
@@ -99,14 +99,14 @@ namespace TeleportationNetwork
         {
             float width = entity.CollisionBox.Width;
             _teleportParticles.AddPos.Set(width, entity.CollisionBox.Height, width);
-            _teleportParticles.MinPos.Set(entity.SidedPos).Add(-width / 2, 0, -width / 2);
+            _teleportParticles.MinPos.Set(entity.Pos).Add(-width / 2, 0, -width / 2);
             _teleportParticles.Color = GetRandomColor();
             _api.World.SpawnParticles(_teleportParticles);
         }
 
         public int GetRandomColor()
         {
-            return _temporalGear.GetRandomColor(_api, null);
+            return _temporalGear?.GetRandomColor(_api, null) ?? ColorUtil.WhiteArgb;
         }
 
         private static Vec3d GetSealCenter(BlockPos pos) => pos.ToVec3d().Add(0.5, 1, 0.5);

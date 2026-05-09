@@ -100,11 +100,19 @@ namespace TeleportationNetwork
                 colorIndex = _colors.Length - 1;
             }
 
-            int colorIconSize = 22;
+            int colorSize = 22;
+            int iconSize = 27;
             int spacing = -15;
             int rowHeight = 25;
             int colorRows = (int)Math.Ceiling((double)_colors.Length / 11);
             int iconRows = (int)Math.Ceiling((double)_icons.Length / 9);
+            int iconListWidth = 270;
+            if(iconRows > 9) // UI gets too high -> extend horizontally to fit more
+            {
+                int iconsPerRow = iconRows;
+                iconRows = (int)Math.Ceiling((double)_icons.Length / iconsPerRow);
+                iconListWidth = iconsPerRow * iconSize + (iconsPerRow - 1) * 5 + spacing;
+            }
             int noteMaxLines = 5;
 
             var leftColumn = ElementBounds.Fixed(0, 28, 100, rowHeight);
@@ -129,20 +137,20 @@ namespace TeleportationNetwork
 
             var colorLabel = leftColumn.FlatCopy().FixedUnder(globalLabel, spacing);
             var colorPicker = rightColumn.FlatCopy().FixedUnder(globalSwitch, spacing)
-                .WithFixedSize(colorIconSize, colorIconSize);
+                .WithFixedSize(colorSize, colorSize);
 
             var iconLabel = leftColumn.FlatCopy()
-                .FixedUnder(colorLabel, spacing + (colorIconSize + 5) * (colorRows - 1));
+                .FixedUnder(colorLabel, spacing + (iconSize) * (colorRows - 1));
             var iconPicker = rightColumn.FlatCopy()
-                .FixedUnder(colorPicker, spacing + (colorIconSize + 5) * (colorRows - 1))
-                .WithFixedSize(colorIconSize + 5, colorIconSize + 5);
+                .FixedUnder(colorPicker, spacing + (iconSize) * (colorRows - 1))
+                .WithFixedSize(iconSize, iconSize);
 
             var buttonRow = ElementBounds.Fixed(0, 28, 400, 25);
             var cancelButton = buttonRow.FlatCopy()
-                .FixedUnder(iconLabel, spacing + (colorIconSize + 10) * (iconRows - 1))
+                .FixedUnder(iconLabel, spacing + (colorSize + 10) * (iconRows - 1))
                 .WithFixedWidth(100);
             var saveButton = buttonRow.FlatCopy()
-                .FixedUnder(iconPicker, spacing + (colorIconSize + 10) * (iconRows - 1))
+                .FixedUnder(iconPicker, spacing + (colorSize + 10) * (iconRows - 1))
                 .WithFixedWidth(100)
                 .WithAlignment(EnumDialogArea.RightFixed);
 
@@ -184,7 +192,7 @@ namespace TeleportationNetwork
                             .AddColorListPicker(_colors, OnColorSelected, colorPicker, 270, "colorPicker")
 
                             .AddStaticText(Lang.Get("Icon"), CairoFont.WhiteSmallText(), iconLabel)
-                            .AddIconListPicker(_icons, OnIconSelected, iconPicker, 270, "iconPicker")
+                            .AddIconListPicker(_icons, OnIconSelected, iconPicker, iconListWidth, "iconPicker")
 
                             .AddSmallButton(Lang.Get("Cancel"), OnCancel, cancelButton, EnumButtonStyle.Normal)
                             .AddSmallButton(Lang.Get("Save"), OnSave, saveButton, EnumButtonStyle.Normal, key: "saveButton")

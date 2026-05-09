@@ -11,9 +11,9 @@
 		<WarningLevel>4</WarningLevel>
 		<!-- Disable Missing XML comment for publicly visible type or member -->
 		<NoWarn>CS1591</NoWarn>
-		<AssemblyVersion>1.15.0</AssemblyVersion>
-		<FileVersion>1.15.0</FileVersion>
-		<Version>1.15.0</Version>
+		<AssemblyVersion>1.15.1</AssemblyVersion>
+		<FileVersion>1.15.1</FileVersion>
+		<Version>1.15.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

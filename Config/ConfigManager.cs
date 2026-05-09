@@ -43,7 +43,7 @@ namespace TeleportationNetwork
 				{
 					if (_serverStartConfigErrors.Count > 0)
 					{
-						var text = $"<font color=#d0342c><strong>CommonLib:</strong></font> " +
+						var text = $"<font color=#d0342c><strong>Teleportation Network:</strong></font> " +
 							$"Can't load server configs:\n\n{string.Join("\n", _serverStartConfigErrors)}\n\n" +
 							$"May cause problems, please check <font color=#ffa500>server-main.log</font> and report it";
 						api.SendMessage(byPlayer, GlobalConstants.AllChatGroups, text, EnumChatType.OwnMessage);
@@ -51,7 +51,7 @@ namespace TeleportationNetwork
 					if (_versionMismatch.Count > 0)
 					{
 						var configs = _versionMismatch.Select(x => $"{x.Config.Name} {x.LoadedVersion}=&gt;{x.Config.Version}");
-						var text = $"<font color=#d0342c><strong>CommonLib:</strong></font> " +
+						var text = $"<font color=#d0342c><strong>Teleportation Network:</strong></font> " +
 							$"Server configs version mismatch:\n\n{string.Join("\n", configs)}\n\n" +
 							$"Some config values may be reset";
 						api.SendMessage(byPlayer, GlobalConstants.AllChatGroups, text, EnumChatType.OwnMessage);
@@ -79,14 +79,14 @@ namespace TeleportationNetwork
 			{
 				if (_clientStartConfigErrors.Count > 0)
 				{
-					api.ShowChatMessage($"<font color=#d0342c><strong>CommonLib:</strong></font> " +
+					api.ShowChatMessage($"<font color=#d0342c><strong>Teleportation Network:</strong></font> " +
 						$"Can't load client configs:\n\n{string.Join("\n", _clientStartConfigErrors)}\n\n" +
 						$"May cause problems, please check <font color=#ffa500>client-main.log</font> and report it");
 				}
 				if (_versionMismatch.Count > 0 && !api.IsSinglePlayer)
 				{
 					var configs = _versionMismatch.Select(x => $"{x.Config.Name} {x.LoadedVersion}=&gt;{x.Config.Version}");
-					api.ShowChatMessage($"<font color=#d0342c><strong>CommonLib:</strong></font> " +
+					api.ShowChatMessage($"<font color=#d0342c><strong>Teleportation Network:</strong></font> " +
 						$"Client configs version mismatch:\n\n{string.Join("\n", configs)}\n\n" +
 						$"Some config values may be reset");
 				}

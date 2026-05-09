@@ -3,7 +3,6 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -106,12 +105,11 @@ namespace TeleportationNetwork
 				var checkerAttr = prop.GetCustomAttribute<ValueCheckerAttribute>();
 				if (checkerAttr != null)
 				{
-					var value = prop.GetValue(config);
-					if (!checkerAttr.Check(api, (IComparable)value))
+					if (prop.GetValue(config) is IComparable value && !checkerAttr.Check(api, value))
 					{
 						if (checkerAttr is RangeAttribute rangeAttr)
 						{
-							var clampedValue = rangeAttr.ClampRange((IComparable)value);
+							var clampedValue = rangeAttr.ClampRange(value);
 							if (clampedValue != value)
 							{
 								logger.Warning($"{type.FullName}.{prop.Name} value {value} out of bounds, set to {clampedValue}");
@@ -188,7 +186,7 @@ namespace TeleportationNetwork
 				if (type.IsArray)
 				{
 					var list = (IList)value;
-					var elementType = type.GetElementType();
+					var elementType = type.GetElementType() ?? throw new InvalidCastException($"{type} has no element type");
 					var convertedArray = Array.CreateInstance(elementType, list.Count);
 					for (int i = 0; i < list.Count; i++)
 					{
@@ -219,7 +217,6 @@ namespace TeleportationNetwork
 			}
 			catch (Exception)
 			{
-				Debugger.Break();
 				if (defaultValue == null)
 					throw;
 				return defaultValue;

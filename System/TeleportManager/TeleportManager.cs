@@ -1,6 +1,7 @@
-using ProtoBuf;
+﻿using ProtoBuf;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
@@ -136,7 +137,7 @@ namespace TeleportationNetwork
 
             if (teleport.Name != msg.Teleport.Name)
             {
-                int chunkSize = _api.World.BlockAccessor.ChunkSize;
+                int chunkSize = GlobalConstants.ChunkSize;
                 int chunkX = teleport.Pos.X / chunkSize;
                 int chunkZ = teleport.Pos.Z / chunkSize;
 

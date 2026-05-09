@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using Vintagestory.API.Client;
@@ -191,7 +191,7 @@ namespace TeleportationNetwork
                         .EndChildElements()
                         .Compose();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     useFallback = true; // Use fallback when icons are not loaded and there is no allowMap config that says so
                 }

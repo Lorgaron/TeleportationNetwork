@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
@@ -68,7 +68,7 @@ namespace TeleportationNetwork
             if (name.EndsWith("*"))
             {
                 string subName = name.Substring(0, name.Length - 1);
-                assets = _api.Assets.GetManyInCategory("worldgen", $"schematics/{subName}").ToArray();
+                assets = _api.Assets.GetManyInCategory("worldgen", $"schematics/{subName}", "game").ToArray();
             }
             else
             {

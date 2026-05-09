@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -78,8 +78,11 @@ namespace TeleportationNetwork
                 Block.Code == new AssetLocation("tpnet:teleport-broken"))
             {
                 var sidedBlock = api.World.GetBlock(Block.Code.WithPathAppendix("-north"));
-                api.World.BlockAccessor.ExchangeBlock(sidedBlock.Id, Pos);
-                api.World.BlockAccessor.MarkBlockDirty(Pos);
+                if (sidedBlock != null)
+                {
+                    api.World.BlockAccessor.ExchangeBlock(sidedBlock.Id, Pos);
+                    api.World.BlockAccessor.MarkBlockDirty(Pos);
+                }
             }
 
             _modLogger = api.ModLoader.GetModSystem<Core>().Mod.Logger;

@@ -119,6 +119,7 @@ namespace TeleportationNetwork
 		public void Dispose()
 		{
 			GC.SuppressFinalize(this);
+			Api.Event.UnregisterRenderer(this, EnumRenderStage.Ortho);
 			if (_circleMesh is not null)
 			{
 				Api.Render.DeleteMesh(_circleMesh);

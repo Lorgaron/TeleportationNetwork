@@ -11,9 +11,9 @@ namespace TeleportationNetwork
 		/// Wrapper for GetBlock and GetItem, used if you need to get a CollectibleObject
 		/// regardless of whether it is an item or a block
 		/// </summary>
-		public static CollectibleObject GetCollectibleObject(this IWorldAccessor world, AssetLocation code)
+		public static CollectibleObject? GetCollectibleObject(this IWorldAccessor world, AssetLocation code)
 		{
-			return (CollectibleObject)world.GetItem(code) ?? world.GetBlock(code);
+			return (CollectibleObject?)world.GetItem(code) ?? world.GetBlock(code);
 		}
 
 		/// <summary>

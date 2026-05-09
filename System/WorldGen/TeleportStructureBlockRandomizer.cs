@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +103,7 @@ namespace TeleportationNetwork
             {
                 for (int i = blockAccessor.GetTerrainMapheightAt(pos); i > 0; i--)
                 {
-                    var bpos = new BlockPos(pos.X, i, pos.Y, pos.dimension);
+                    var bpos = new BlockPos(pos.X, i, pos.Z, pos.dimension);
                     Block block = blockAccessor.GetBlock(bpos);
                     if (block.Code.Path.StartsWith("rock-"))
                     {
@@ -119,9 +119,7 @@ namespace TeleportationNetwork
             }
 
             _currentStructure = structure;
-
-            //_currentRock = GetRock();
-            _currentRock = "granite";
+            _currentRock = GetRock();
             _currentWood = Woods[rand.NextInt(Woods.Length)];
             _currentClay = Clays[rand.NextInt(Clays.Length)];
             _currentLantern = _props.LanternMaterials[rand.NextInt(_props.LanternMaterials.Length)];
